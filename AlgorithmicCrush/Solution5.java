@@ -1,0 +1,38 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution5 {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        long startTime = System.currentTimeMillis();
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int []list = new int[N];
+        int M = sc.nextInt();
+        long endTime = System.currentTimeMillis();
+        int maxValue = 0;
+        sc.nextLine();
+        int a;
+        int b;
+        int k;
+        for (int i = 0; i < M; i++) {
+            System.out.print("At M=" + i + "\r");
+            a = sc.nextInt();
+            b = sc.nextInt();
+            k = sc.nextInt();
+            for (int j = a; j < b; j++) {
+                list[j] = list[j] + k;
+            }
+        }
+        for (int j = 0; j < list.length; j++) {
+            if(maxValue < list[j]) {
+                maxValue = list[j];
+            }
+        }
+        System.out.println(maxValue);
+    }
+}

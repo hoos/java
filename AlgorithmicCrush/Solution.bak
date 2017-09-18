@@ -1,0 +1,37 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        try {
+	    /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+	    Scanner sc = new Scanner(new File("input.txt"));
+	    int N = sc.nextInt();
+	    int []list = new int[N];
+	    int M = sc.nextInt();
+	    System.out.println("N=" + N + " M=" + M); 
+	    int[] ops = new int[3];
+	    int maxValue = 0;
+	    sc.nextLine();
+	    for (int i = 0; i < M; i++) {
+		ops[0] = sc.nextInt();
+		ops[1] = sc.nextInt();
+		ops[2] = sc.nextInt();
+		//System.out.println("ops=" + Arrays.toString(ops)); 
+		for (int j = ops[0]; j < ops[1]; j++) {
+		    list[j] = list[j] + ops[2];
+		    if(maxValue < list[j]) {
+			maxValue = list[j];
+		    }
+		}
+	    }
+	    System.out.println(maxValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
