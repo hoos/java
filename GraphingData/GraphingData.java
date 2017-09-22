@@ -21,6 +21,7 @@ public class GraphingData extends JPanel {
         int h = getHeight();
         Font font = g2.getFont();
         FontRenderContext frc = g2.getFontRenderContext();
+        g2.setPaint(Color.BLACK);
         g2.draw(new Line2D.Double(LMARGIN, TMARGIN, LMARGIN, h-BMARGIN));
         int tick_label = 0;
         for (int i = h - BMARGIN; i >= TMARGIN; i-=(h/30)) {
@@ -40,14 +41,15 @@ public class GraphingData extends JPanel {
         int h = getHeight();
         Font font = g2.getFont();
         FontRenderContext frc = g2.getFontRenderContext();
-        g2.draw(new Line2D.Double(LMARGIN, h-LMARGIN, w-RMARGIN, h-LMARGIN));
+        g2.setPaint(Color.BLACK);
+        g2.draw(new Line2D.Double(LMARGIN, h-BMARGIN, w-RMARGIN, h-BMARGIN));
         int step = 0;
         float x_tick_label = xdata[step];
-        for (int i = LMARGIN; i < w - RMARGIN; i+=(w/95)) {
+        for (int i = BMARGIN; i < w - RMARGIN; i+=(w/95)) {
             g2.draw(new Line2D.Double(i, h-BMARGIN, i, h-BMARGIN+TICK_LENGTH));
             String letter = String.format("%.1f", x_tick_label);
             float sw = (float)font.getStringBounds(letter, frc).getWidth();
-            float sx = i - sw/4; 
+            float sx = i - sw/4 - 5; 
             float sy = h - BMARGIN + 15 ;
             if (i%2 == 0) {
               g2.drawString(letter, sx, sy);
@@ -58,10 +60,10 @@ public class GraphingData extends JPanel {
 
     }
 
-    protected void drawLine(Graphics2D g2) {
+   protected void drawLine(Graphics2D g2) {
         int w = getWidth();
         int h = getHeight();
-        g2.setPaint(Color.blue);
+        g2.setPaint(Color.BLUE);
         for(int i = 0; i < 198; i++) {
             double x1 = LMARGIN + (i * 10)  ;
             double y1 = h - BMARGIN - (ydata[i] * h/300);
@@ -109,15 +111,29 @@ public class GraphingData extends JPanel {
     protected void drawDataPoints(Graphics2D g2) {
         int w = getWidth();
         int h = getHeight();
-        g2.setPaint(Color.red);
+        //g2.setPaint(new Color(91,153,149));
+        g2.setPaint(Color.BLUE);
         for(int i = 0; i < 199; i++) {
             double x = LMARGIN + i * 10;
             double y = h - BMARGIN - (ydata[i] * h/300);
             //System.out.println("x = " + x + " y = " + y);
-            g2.fill(new Ellipse2D.Double(x - 2.5, y - 2.5, 5, 5));
+            //g2.fill(new Ellipse2D.Double(x - 2.5, y - 2.5, 5, 5));
+            g2.fill(new Rectangle2D.Double(x - 2.5, y - 2.5, 5, 5));
+            //g2.draw(new Rectangle2D.Double(x - 2.5, y - 2.5, 5, 5));
         }
     }
 
+    protected void drawGridLine(Graphics2D g2) {
+        int w = getWidth();
+        int h = getHeight();
+        g2.setPaint(Color.LIGHT_GRAY);
+        FontRenderContext frc = g2.getFontRenderContext();
+        for (int i = ((h-TMARGIN)/10); i < h - TMARGIN; i += ((h-TMARGIN)/10)) {
+            g2.draw(new Line2D.Double(LMARGIN, h-BMARGIN-i, w-RMARGIN, h-BMARGIN-i));
+        }
+    }
+
+ 
     protected void paintComponent(Graphics g) {
         Scanner sc = new Scanner(System.in); 
         int idx = 0;
@@ -150,6 +166,8 @@ public class GraphingData extends JPanel {
         drawLine(g2);
         // Draw data points.
         drawDataPoints(g2);
+        // Draw grid lines
+        drawGridLine(g2);
     }
 
     public static void main(String[] args) {
@@ -158,7 +176,6 @@ public class GraphingData extends JPanel {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.add(new GraphingData());
         f.setExtendedState( f.getExtendedState()|JFrame.MAXIMIZED_BOTH );
-        f.setSize(2048,1152);
         f.setLocation(0,0);
         f.setVisible(true);
     }
